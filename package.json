@@ -1,0 +1,14 @@
+{
+  "name": "assignment3",
+  "version": "1.0.0",
+  "description": "An automated solution to predict the number of functional requirements (or features) for three software releases, given an immediate history of the numbers of released requirements",
+  "main": "main.js",
+  "scripts": {
+    "dev": "node main.js"
+  },
+  "author": "Emma Gardner",
+  "license": "ISC",
+  "dependencies": {
+    "timeseries-analysis": "^1.0.12"
+  }
+}

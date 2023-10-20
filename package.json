@@ -6,9 +6,11 @@
   "scripts": {
     "dev": "node main.js"
   },
+  "type": "module",
   "author": "Emma Gardner",
   "license": "ISC",
   "dependencies": {
+    "read-excel-file": "^5.7.1",
     "timeseries-analysis": "^1.0.12"
   }
 }

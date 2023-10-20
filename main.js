@@ -1,5 +1,6 @@
 import * as readLine from "readline";
 import readXlsxFile from "read-excel-file/node";
+import timeseries from "timeseries-analysis";
 
 const main = () => {
   // Set up the readline object to prompt the user
@@ -29,10 +30,40 @@ const main = () => {
         })
         .then((data) => {
           // Perform the calculations to predict the number of funcitonal requirements for the next 3 releases
-          // Print the predictions for the next 3 releases to the console
+          for (let prediction = 1; prediction < 4; prediction++) {
+            // Create the sequence from the array of data
+            let sequence = new timeseries.main(
+              timeseries.adapter.fromArray(data)
+            );
+
+            // Calculate the coefficients
+            let coefficients = sequence.ARMaxEntropy();
+
+            // Initially set the forecast to 0
+            let forecast = 0;
+
+            // Loop through the coefficients
+            for (let i = 0; i < coefficients.length; i++) {
+              // The following math is explained in the ReadMe file of the timeseries-analysis npm package
+              // https://www.npmjs.com/package/timeseries-analysis?activeTab=readme#calculating-the-forecasted-value
+              // Update the forecast based on the sequence of data and calculated coefficients
+              forecast -=
+                sequence.data[coefficients.length - i][1] * coefficients[i];
+            }
+
+            // Round the prediction since requirements must be represented by whole numbers
+            forecast = Math.round(forecast);
+
+            // Print the prediction to the console
+            console.log(`Prediction #${prediction}: `, forecast);
+
+            // Add the predicted value to the data array so that it can be used to predict the next value as needed
+            data.push(forecast);
+          }
         });
     }
   );
 };
 
+// Call the method
 main();

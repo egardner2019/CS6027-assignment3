@@ -29,7 +29,7 @@ const main = () => {
           return data;
         })
         .then((data) => {
-          // Perform the calculations to predict the number of funcitonal requirements for the next 3 releases
+          // Perform the calculations to predict the number of functional requirements for the next 3 releases
           for (let prediction = 1; prediction < 4; prediction++) {
             // Create the sequence from the array of data
             let sequence = new timeseries.main(

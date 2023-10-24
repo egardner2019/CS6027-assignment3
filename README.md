@@ -2,8 +2,8 @@
 This is an automated solution to predict the number of functional requirements (or features) for three software releases, given an immediate history of the numbers of released requirements.
 
 This solution uses the following npm packages:
-- <a href="https://www.npmjs.com/package/timeseries-analysis">timeseries-analysis</a>
 - <a href="https://www.npmjs.com/package/read-excel-file">read-excel-file</a>
+- <a href="https://www.npmjs.com/package/arima">arima</a>
 
 To run this code, complete the following steps:
 1. Clone this repository.

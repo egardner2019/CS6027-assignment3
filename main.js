@@ -1,6 +1,6 @@
 import * as readLine from "readline";
 import readXlsxFile from "read-excel-file/node";
-import timeseries from "timeseries-analysis";
+import ARIMA from "arima";
 
 const main = () => {
   // Set up the readline object to prompt the user
@@ -25,41 +25,21 @@ const main = () => {
             data.push(row[0]);
           });
 
-          // Return the array of integers containing the number of functional requirements per month
-          return data;
+          // Return the reversed array of integers containing the number of functional requirements per month
+          // The data needs to be reversed so that we predict what comes after the most recent data
+          return data.reverse();
         })
         .then((data) => {
-          // Perform the calculations to predict the number of functional requirements for the next 3 releases
-          for (let prediction = 1; prediction < 4; prediction++) {
-            // Create the sequence from the array of data
-            let sequence = new timeseries.main(
-              timeseries.adapter.fromArray(data)
-            );
+          // Create the Autoregressive Integrated Moving Average model and train it with the provided historical data
+          const arima = new ARIMA({ verbose: false }).train(data);
 
-            // Calculate the coefficients
-            let coefficients = sequence.ARMaxEntropy();
+          // Get the next 3 predictions using ARIMA
+          const [predictions] = arima.predict(3);
 
-            // Initially set the forecast to 0
-            let forecast = 0;
-
-            // Loop through the coefficients
-            for (let i = 0; i < coefficients.length; i++) {
-              // The following math is explained in the ReadMe file of the timeseries-analysis npm package
-              // https://www.npmjs.com/package/timeseries-analysis?activeTab=readme#calculating-the-forecasted-value
-              // Update the forecast based on the sequence of data and calculated coefficients
-              forecast -=
-                sequence.data[coefficients.length - i][1] * coefficients[i];
-            }
-
-            // Round the prediction since requirements must be represented by whole numbers
-            forecast = Math.round(forecast);
-
-            // Print the prediction to the console
-            console.log(`Prediction #${prediction}: `, forecast);
-
-            // Add the predicted value to the data array so that it can be used to predict the next value as needed
-            data.push(forecast);
-          }
+          // Print the predictions to the console
+          predictions.forEach((prediction, index) =>
+            console.log(`Prediction #${index + 1}: `, Math.round(prediction))
+          );
         });
     }
   );

@@ -10,7 +10,7 @@
   "author": "Emma Gardner",
   "license": "ISC",
   "dependencies": {
-    "read-excel-file": "^5.7.1",
-    "timeseries-analysis": "^1.0.12"
+    "arima": "^0.2.5",
+    "read-excel-file": "^5.7.1"
   }
 }

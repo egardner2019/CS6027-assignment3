@@ -25,7 +25,7 @@ const main = () => {
             data.push(row[0]);
           });
 
-          // Return the reversed array of integers containing the number of functional requirements per month
+          // Return the reversed array of integers containing the number of functional requirements per time period
           // The data needs to be reversed so that we predict what comes after the most recent data
           return data.reverse();
         })

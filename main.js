@@ -30,13 +30,16 @@ const main = () => {
           return data.reverse();
         })
         .then((data) => {
-          // Create the Autoregressive Integrated Moving Average model and train it with the provided historical data
-          const arima = new ARIMA({ verbose: false }).train(data);
+          // Create the Autoregressive Integrated Moving Average model
+          // Calculate the parameters automatically and then train the model with the provided historical data
+          // Note: the auto option prints 0.05 to the console. This is a known bug (https://github.com/zemlyansky/arima/issues/5), but I cannot fix it.
+          const arima = new ARIMA({ auto: true, verbose: false }).train(data);
 
           // Get the next 3 predictions using ARIMA
           const [predictions] = arima.predict(3);
 
           // Print the predictions to the console
+          console.log("\n------RESULTS------")
           predictions.forEach((prediction, index) =>
             console.log(`Prediction #${index + 1}: `, Math.round(prediction))
           );
